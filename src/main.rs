@@ -1,5 +1,8 @@
-include!(concat!(env!("OUT_DIR"), "/hello.rs"));
+// const GITIGNORE_FILES: &[(&str, &[u8])] = &include!(concat!(env!("OUT_DIR"), "/gitignore_data.rs"));
 
 fn main() {
-    println!("{}", message());
+    // for (file, data) in GITIGNORE_FILES {
+    //     println!("File {} is {} bytes", file, data.len())
+    // }
+    println!("Hello world!");
 }
