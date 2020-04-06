@@ -3,19 +3,22 @@ use std::{
     error::Error,
     fs::{self, File},
     io::Write,
-    path::Path,
+    path::{Path, PathBuf},
 };
 
-const GITIGNORE_DIR: &str = "./gitignore/";
+const GITIGNORE_DIR: &str = "gitignore";
 
 fn main() -> Result<(), Box<dyn Error>> {
+    let mut d = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
+    d.push(GITIGNORE_DIR);
+
     let out_dir = env::var("OUT_DIR")?;
     let dest_path = Path::new(&out_dir).join("gitignore_data.rs");
     let mut gitignore_data = File::create(&dest_path)?;
 
     writeln!(&mut gitignore_data, r#"["#,)?;
 
-    for file in fs::read_dir(GITIGNORE_DIR)? {
+    for file in fs::read_dir(d)? {
         let file = file?;
 
         if !file.file_type()?.is_file() {
@@ -44,7 +47,7 @@ fn main() -> Result<(), Box<dyn Error>> {
         }
     }
 
-    writeln!(&mut gitignore_data, r#"];"#,)?;
+    writeln!(&mut gitignore_data, r#"]"#,)?;
 
     println!("cargo:rerun-if-changed=build.rs");
 
