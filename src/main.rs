@@ -4,5 +4,4 @@ fn main() {
     for (file, data) in GITIGNORE_FILES {
         println!("File {} is {} bytes", file, data.len())
     }
-    println!("Hello world!");
 }
