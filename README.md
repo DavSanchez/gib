@@ -25,7 +25,9 @@ $ gib list
 ### Output `.gitignore` file for Go and Rust
 ```bash
 $ gib go rust
-$ cat .gitignore
+```
+#### `.gitignore`
+```
 ###############
 #     Go
 ###############
