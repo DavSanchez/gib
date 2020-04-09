@@ -22,7 +22,7 @@ fn main() -> Result<(), Box<dyn Error>> {
 
     writeln!(&mut gitignore_data, r#"["#,)?;
     for path in path_vec {
-        let filename = path.file_stem().unwrap().to_str().unwrap().to_lowercase();
+        let filename = path.file_stem().unwrap().to_str().unwrap();
         let filepath = path.display();
         writeln!(
             &mut gitignore_data,
