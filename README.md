@@ -18,7 +18,12 @@ $ gib [<template>...] [-o|--output] [<path>]
 
 ### Get list of available templates
 ```bash
-$ gib list
+$ gib [-l|--list]
+```
+
+### Print result of specified templates to `stdout` only
+```bash
+$ gib [<template>...] [-s|--show]
 ```
 
 ## Examples
