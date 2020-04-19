@@ -1,7 +1,7 @@
-use std::path::PathBuf;
+use std::{collections::HashMap, path::PathBuf};
 use structopt::StructOpt;
 
-const GITIGNORE_FILES: &[(&str, &[u8])] = &include!(concat!(env!("OUT_DIR"), "/gitignore_data.rs"));
+const GITIGNORE_FILES: &[(&str, (&str, &[u8]))] = &include!(concat!(env!("OUT_DIR"), "/gitignore_data.rs"));
 
 #[derive(StructOpt, Debug)]
 #[structopt(name = "gib")]
@@ -31,17 +31,21 @@ struct Gib {
 }
 
 fn main() {
+    let gitignores: HashMap<&str, (&str, &[u8])> = GITIGNORE_FILES.iter().cloned().collect();
     let opt = Gib::from_args();
     println!("{:#?}", opt);
     if !opt.templates.is_empty() {
-        for gitignore in GITIGNORE_FILES {
-            if opt.templates[0] == gitignore.0.to_lowercase() {
+        match gitignores.get::<str>(&opt.templates[0]) {
+            Some(contents) => {
                 println!("###############");
-                println!("#     {}",gitignore.0);
+                println!("#     {}", contents.0);
                 println!("###############");
-                println!("{}", String::from_utf8_lossy(gitignore.1));
-                break;
+                println!("{}", String::from_utf8_lossy(contents.1));
             }
+            None => {}
         }
     }
+    // for (file, data) in GITIGNORE_FILES {
+    //     println!("File {} is {} bytes", file, data.len())
+    // }
 }
