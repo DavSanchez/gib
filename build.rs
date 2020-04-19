@@ -26,8 +26,8 @@ fn main() -> Result<(), Box<dyn Error>> {
         let filepath = path.display();
         writeln!(
             &mut gitignore_data,
-            r#"("{}", include_bytes!("{}")),"#,
-            filename, filepath,
+            r#"("{}", ("{}", include_bytes!("{}"))),"#,
+            filename.to_lowercase(), filename, filepath,
         )?;
     }
     writeln!(&mut gitignore_data, r#"]"#,)?;
