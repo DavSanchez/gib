@@ -1,7 +1,8 @@
 use std::{collections::HashMap, path::PathBuf};
 use structopt::StructOpt;
 
-const GITIGNORE_FILES: &[(&str, (&str, &[u8]))] = &include!(concat!(env!("OUT_DIR"), "/gitignore_data.rs"));
+const GITIGNORE_FILES: &[(&str, (&str, &[u8]))] =
+    &include!(concat!(env!("OUT_DIR"), "/gitignore_data.rs"));
 
 #[derive(StructOpt, Debug)]
 #[structopt(name = "gib")]

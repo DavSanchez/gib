@@ -27,7 +27,9 @@ fn main() -> Result<(), Box<dyn Error>> {
         writeln!(
             &mut gitignore_data,
             r#"("{}", ("{}", include_bytes!("{}"))),"#,
-            filename.to_lowercase(), filename, filepath,
+            filename.to_lowercase(),
+            filename,
+            filepath,
         )?;
     }
     writeln!(&mut gitignore_data, r#"]"#,)?;
