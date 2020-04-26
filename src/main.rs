@@ -1,4 +1,5 @@
-use std::{collections::HashMap, path::PathBuf};
+use std::{collections::HashMap, io::Write, path::PathBuf};
+use itertools::Itertools;
 use structopt::StructOpt;
 
 const GITIGNORE_FILES: &[(&str, (&str, &[u8]))] =
@@ -27,7 +28,6 @@ struct Gib {
     #[structopt(short, long)]
     replace: bool,
     */
-
     /// Print list of available templates to stdout
     #[structopt(short, long)]
     list: bool,
@@ -41,22 +41,36 @@ struct Gib {
     templates: Vec<String>,
 }
 
-fn main() {
+fn main() -> std::io::Result<()> {
     let gitignores: HashMap<&str, (&str, &[u8])> = GITIGNORE_FILES.iter().cloned().collect();
     let opt = Gib::from_args();
+    //let mut out: dyn std::io::Write;
+
+    // Check for list
+    if opt.list {
+        for template_key in gitignores.keys().sorted() {
+            println!("{}", template_key);
+        }
+        return Ok(());
+    }
+
+    // Check for show
+
+    // Check for out
+
     println!("{:#?}", opt);
     if !opt.templates.is_empty() {
+        let mut out = std::io::stdout();
         match gitignores.get::<str>(&opt.templates[0]) {
             Some(contents) => {
-                println!("###############");
-                println!("#    {}", contents.0);
-                println!("###############");
-                println!("{}", String::from_utf8_lossy(contents.1));
+                writeln!(out, "###############")?;
+                writeln!(out, "#    {}", contents.0)?;
+                writeln!(out, "###############")?;
+                writeln!(out, "{}", String::from_utf8_lossy(contents.1))?;
             }
             None => {}
         }
     }
-    // for (file, data) in GITIGNORE_FILES {
-    //     println!("File {} is {} bytes", file, data.len())
-    // }
+
+    Ok(())
 }
