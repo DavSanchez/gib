@@ -18,6 +18,16 @@ struct Gib {
     #[structopt(short, long)]
     show: bool,
 
+    /*
+    /// Append result to existing .gitignore
+    #[structopt(short, long)]
+    append: bool,
+
+    /// Replace existing .gitignore with result
+    #[structopt(short, long)]
+    replace: bool,
+    */
+
     /// Print list of available templates to stdout
     #[structopt(short, long)]
     list: bool,
@@ -39,7 +49,7 @@ fn main() {
         match gitignores.get::<str>(&opt.templates[0]) {
             Some(contents) => {
                 println!("###############");
-                println!("#     {}", contents.0);
+                println!("#    {}", contents.0);
                 println!("###############");
                 println!("{}", String::from_utf8_lossy(contents.1));
             }
