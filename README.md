@@ -4,12 +4,12 @@
 TODO
 
 ## Usage
-### Create `.gitignore` at current directory if it doesn't exist
+### Create `.gitignore` at current directory (if it doesn't exist)
 ```bash
 $ gib [<template>...] 
 ```
 
-If a `.gitignore` file already exists at that location, `gib` will do nothing. If you want to extend an existing file instead, use the `-a|--append` flag. If you want to overwrite it, use `-r|--replace`. Check the examples below.
+If a `.gitignore` file already exists at that location, `gib` will do nothing. **\[WIP\]** If you want to extend an existing file instead, use the `-a|--append` flag. If you want to overwrite it, use `-r|--replace`. Check the examples below.
 
 ### Create `.gitignore` at other directory
 ```bash
@@ -67,4 +67,5 @@ Cargo.lock
 **/*.rs.bk
 ```
 ## Pending changes
+- [ ] Add `append` and `replace` flags for working with existing `.gitignore` files.
 - [ ] Replace `.gitignore` template loading with [`lazy_static`](https://docs.rs/lazy_static/) or [`phf`](https://github.com/sfackler/rust-phf)?
