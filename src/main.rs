@@ -1,5 +1,6 @@
-use std::{collections::HashMap, io::Write, path::PathBuf};
+use exitcode;
 use itertools::Itertools;
+use std::{collections::HashMap, env, fs::File, io::Write, path::PathBuf};
 use structopt::StructOpt;
 
 const GITIGNORE_FILES: &[(&str, (&str, &[u8]))] =
@@ -28,7 +29,7 @@ struct Gib {
     #[structopt(short, long)]
     replace: bool,
     */
-    /// Print list of available templates to stdout
+    /// Print list of available templates to stdout. Ignores all other flags.
     #[structopt(short, long)]
     list: bool,
 
@@ -41,36 +42,66 @@ struct Gib {
     templates: Vec<String>,
 }
 
-fn main() -> std::io::Result<()> {
+fn main() {
     let gitignores: HashMap<&str, (&str, &[u8])> = GITIGNORE_FILES.iter().cloned().collect();
     let opt = Gib::from_args();
-    //let mut out: dyn std::io::Write;
+    let mut out: Box<dyn Write>;
 
-    // Check for list
+    if opt.debug {
+        println!("Debug flag activated. Data shown below:");
+        println!("{:#?}", opt);
+    }
+
+    // Check for list flag
     if opt.list {
         for template_key in gitignores.keys().sorted() {
             println!("{}", template_key);
         }
-        return Ok(());
+        std::process::exit(exitcode::OK);
     }
 
-    // Check for show
+    // Check for show flag
+    if !opt.show {
+        // Check for out
+        let output_dir = match opt.output {
+            Some(path) => path,
+            None => env::current_dir().unwrap(),
+        };
 
-    // Check for out
+        // println!("Destination path: {}", output_dir.display());
+        // println!("Path exists? {}",output_dir.exists());
 
-    println!("{:#?}", opt);
+        if !output_dir.exists() {
+            eprintln!("Error: Output directory does not exist.");
+            std::process::exit(exitcode::OSFILE);
+        } else if output_dir.join(".gitignore").exists() {
+            eprintln!("Error: .gitignore file already exists at this location.");
+            std::process::exit(exitcode::CANTCREAT);
+        } else {
+            let gitignore_file = output_dir.join(".gitignore");
+            out = Box::new(File::create(&gitignore_file).unwrap());
+        }
+    } else {
+        out = Box::new(std::io::stdout());
+    }
+
     if !opt.templates.is_empty() {
-        let mut out = std::io::stdout();
         match gitignores.get::<str>(&opt.templates[0]) {
             Some(contents) => {
-                writeln!(out, "###############")?;
-                writeln!(out, "#    {}", contents.0)?;
-                writeln!(out, "###############")?;
-                writeln!(out, "{}", String::from_utf8_lossy(contents.1))?;
+                writeln!(&mut out, "###############").unwrap();
+                writeln!(&mut out, "#   {}", contents.0).unwrap();
+                writeln!(&mut out, "###############").unwrap();
+                writeln!(&mut out, "{}", String::from_utf8_lossy(contents.1)).unwrap();
             }
-            None => {}
+            None => {
+                eprintln!("Error: Unrecognized template(s).");
+                std::process::exit(exitcode::DATAERR);
+            }
         }
+    } else {
+        eprintln!("Error: No template arguments provided");
+        std::process::exit(exitcode::USAGE);
     }
-
-    Ok(())
+    println!("Created .gitignore file.");
+    std::process::exit(exitcode::OK);
 }
