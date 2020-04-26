@@ -71,7 +71,7 @@ fn main() {
         // println!("Destination path: {}", output_dir.display());
         // println!("Path exists? {}",output_dir.exists());
 
-        if !output_dir.exists() {
+        if !output_dir.exists() || !output_dir.is_dir() {
             eprintln!("Error: Output directory does not exist.");
             std::process::exit(exitcode::OSFILE);
         } else if output_dir.join(".gitignore").exists() {
