@@ -19,3 +19,12 @@ rust-nightly:
     - cargo build --verbose
     - cargo test --verbose
   allow_failure: true
+
+windows-mingw:
+  stage: build
+  image: "sseemayer/rust-musl-builder-mingw:latest"
+  artifacts:
+    paths:
+      - target/x86_64-pc-windows-gnu/release/spai.exe
+  script:
+    - cargo build --release --target x86_64-pc-windows-gnu
