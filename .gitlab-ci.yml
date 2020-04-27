@@ -25,6 +25,6 @@ windows-mingw:
   image: "sseemayer/rust-musl-builder-mingw:latest"
   artifacts:
     paths:
-      - target/x86_64-pc-windows-gnu/release/spai.exe
+      - target/x86_64-pc-windows-gnu/release/gib.exe
   script:
     - cargo build --release --target x86_64-pc-windows-gnu
