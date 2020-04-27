@@ -68,9 +68,6 @@ fn main() {
             None => env::current_dir().unwrap(),
         };
 
-        // println!("Destination path: {}", output_dir.display());
-        // println!("Path exists? {}",output_dir.exists());
-
         if !output_dir.exists() || !output_dir.is_dir() {
             eprintln!("Error: Output directory does not exist.");
             std::process::exit(exitcode::OSFILE);
@@ -87,18 +84,23 @@ fn main() {
     }
 
     if !opt.templates.is_empty() {
+        let mut writer_result: Result<(), _>;
         for key in &opt.templates {
             match gitignores.get::<str>(key) {
-                Some(contents) => {
-                    writeln!(&mut out, "###############").unwrap();
-                    writeln!(&mut out, "#   {}", contents.0).unwrap();
-                    writeln!(&mut out, "###############").unwrap();
-                    writeln!(&mut out, "{}", String::from_utf8_lossy(contents.1)).unwrap();
+                Some(content) => {
+                    writer_result = gib::write_contents(&mut out, content);
                 }
                 None => {
                     eprintln!("Error: Unrecognized template.");
                     std::process::exit(exitcode::DATAERR);
                 }
+            }
+            match writer_result {
+                Err(e) => {
+                    eprintln!("Error: Could not write to output. {}", e);
+                    std::process::exit(exitcode::IOERR)
+                }
+                _ => {}
             }
         }
     } else {
