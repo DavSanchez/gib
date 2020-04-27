@@ -80,28 +80,30 @@ fn main() {
         } else {
             let gitignore_file = output_dir.join(".gitignore");
             out = Box::new(File::create(&gitignore_file).unwrap());
+            println!("Creating .gitignore file.");
         }
     } else {
         out = Box::new(std::io::stdout());
     }
 
     if !opt.templates.is_empty() {
-        match gitignores.get::<str>(&opt.templates[0]) {
-            Some(contents) => {
-                writeln!(&mut out, "###############").unwrap();
-                writeln!(&mut out, "#   {}", contents.0).unwrap();
-                writeln!(&mut out, "###############").unwrap();
-                writeln!(&mut out, "{}", String::from_utf8_lossy(contents.1)).unwrap();
-            }
-            None => {
-                eprintln!("Error: Unrecognized template(s).");
-                std::process::exit(exitcode::DATAERR);
+        for key in &opt.templates {
+            match gitignores.get::<str>(key) {
+                Some(contents) => {
+                    writeln!(&mut out, "###############").unwrap();
+                    writeln!(&mut out, "#   {}", contents.0).unwrap();
+                    writeln!(&mut out, "###############").unwrap();
+                    writeln!(&mut out, "{}", String::from_utf8_lossy(contents.1)).unwrap();
+                }
+                None => {
+                    eprintln!("Error: Unrecognized template.");
+                    std::process::exit(exitcode::DATAERR);
+                }
             }
         }
     } else {
         eprintln!("Error: No template arguments provided");
         std::process::exit(exitcode::USAGE);
     }
-    println!("Created .gitignore file.");
     std::process::exit(exitcode::OK);
 }
