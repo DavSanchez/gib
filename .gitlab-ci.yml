@@ -4,6 +4,8 @@ stages:
 rust-latest:
   stage: build
   image: rust:latest
+  variables:
+    GIT_SUBMODULE_STRATEGY: recursive
   script:
     - cargo build --verbose
     - cargo test --verbose
@@ -11,6 +13,8 @@ rust-latest:
 rust-nightly:
   stage: build
   image: rustlang/rust:nightly
+  variables:
+    GIT_SUBMODULE_STRATEGY: recursive
   script:
     - cargo build --verbose
     - cargo test --verbose
