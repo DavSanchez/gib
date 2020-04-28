@@ -11,6 +11,7 @@ repository = "https://gitlab.com/DavSanchez/gib"
 keywords = ["cli", "git", "gitignore", "vcs"]
 categories = ["command-line-utilities"]
 edition = "2018"
+exclude = ["gitignore/*", "!gitignore/**/*.gitignore"]
 
 [badges]
 gitlab = { repository = "https://gitlab.com/DavSanchez/gib" }
