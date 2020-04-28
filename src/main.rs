@@ -1,6 +1,13 @@
 use exitcode;
 use itertools::Itertools;
-use std::{collections::HashMap, env, fs::File, io::Write, path::PathBuf};
+use std::{
+    collections::HashMap,
+    env,
+    fs::File,
+    io::{self, Write},
+    path::PathBuf,
+    process,
+};
 use structopt::StructOpt;
 
 const GITIGNORE_FILES: &[(&str, (&str, &[u8]))] =
@@ -57,7 +64,7 @@ fn main() {
         for template_key in gitignores.keys().sorted() {
             println!("{}", template_key);
         }
-        std::process::exit(exitcode::OK);
+        process::exit(exitcode::OK);
     }
 
     // Check for show flag
@@ -70,17 +77,17 @@ fn main() {
 
         if !output_dir.exists() || !output_dir.is_dir() {
             eprintln!("Error: Output directory does not exist.");
-            std::process::exit(exitcode::OSFILE);
+            process::exit(exitcode::OSFILE);
         } else if output_dir.join(".gitignore").exists() {
             eprintln!("Error: .gitignore file already exists at this location.");
-            std::process::exit(exitcode::CANTCREAT);
+            process::exit(exitcode::CANTCREAT);
         } else {
             let gitignore_file = output_dir.join(".gitignore");
             out = Box::new(File::create(&gitignore_file).unwrap());
             println!("Creating .gitignore file.");
         }
     } else {
-        out = Box::new(std::io::stdout());
+        out = Box::new(io::stdout());
     }
 
     if !opt.templates.is_empty() {
@@ -92,20 +99,20 @@ fn main() {
                 }
                 None => {
                     eprintln!("Error: Unrecognized template.");
-                    std::process::exit(exitcode::DATAERR);
+                    process::exit(exitcode::DATAERR);
                 }
             }
             match writer_result {
                 Err(e) => {
                     eprintln!("Error: Could not write to output. {}", e);
-                    std::process::exit(exitcode::IOERR)
+                    process::exit(exitcode::IOERR)
                 }
                 _ => {}
             }
         }
     } else {
         eprintln!("Error: No template arguments provided");
-        std::process::exit(exitcode::USAGE);
+        process::exit(exitcode::USAGE);
     }
-    std::process::exit(exitcode::OK);
+    process::exit(exitcode::OK);
 }
