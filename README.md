@@ -1,4 +1,5 @@
 # `gib` - A `.gitignore` bootstrapper for projects using `git`
+![Travis CI build](https://travis-ci.com/DavSanchez/gib.svg?branch=master)
 
 ## Installation
 TODO
