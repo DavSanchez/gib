@@ -2,16 +2,20 @@
 name = "gib"
 version = "0.1.0"
 authors = ["David Sánchez <david.sanchez.lt@gmail.com>"]
-license = "GPL-3.0"
+license = "MIT OR GPL-3.0"
 description = "A .gitignore bootstrapper for projects that use git"
 readme = "README.md"
-homepage = "https://gitlab.com/DavSanchez/gib.git"
-repository = "https://gitlab.com/DavSanchez/gib.git"
+homepage = "https://gitlab.com/DavSanchez/gib"
+documentation = "https://gitlab.com/DavSanchez/gib"
+repository = "https://gitlab.com/DavSanchez/gib"
 keywords = ["cli", "git", "gitignore", "vcs"]
 categories = ["command-line-utilities"]
 edition = "2018"
+exclude = ["gitignore/*", "!gitignore/**/*.gitignore"]
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[badges]
+gitlab = { repository = "https://gitlab.com/DavSanchez/gib" }
+travis-ci = { repository = "DavSanchez/gib" }
 
 [dependencies]
 exitcode = "1.1"

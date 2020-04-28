@@ -1,4 +1,5 @@
 # `gib` - A `.gitignore` bootstrapper for projects using `git`
+![Travis CI build](https://travis-ci.com/DavSanchez/gib.svg?branch=master)
 
 ## Installation
 TODO
@@ -10,7 +11,8 @@ $ gib [<template>...]
 ```
 
 If a `.gitignore` file already exists at that location, `gib` will do nothing.
-**\[Coming soon:\]** If you want to extend an existing file instead, use the `-a|--append` flag. If you want to overwrite it, use `-r|--replace`. Check the examples below.
+
+**\[Coming soon:\]** If you want to extend an existing file instead, use the `-a|--append` flag. If you want to overwrite it, use `-r|--replace`.
 
 ### Create `.gitignore` at other directory
 ```bash
