@@ -7,15 +7,19 @@ os:
 - linux
 - osx
 - windows
+
 env:
   global:
   - CRATE_NAME=gib
-jobs:
+
+  jobs:
   allow_failures:
   - rust: nightly
   - os: windows
   fast_finish: true
-cache: cargo
+
+  cache: cargo
+
 deploy:
   provider: releases
   api_key:
