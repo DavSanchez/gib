@@ -1,9 +1,24 @@
 [package]
-name = "gitignore_bootstrapper"
+name = "gib"
 version = "0.1.0"
 authors = ["David Sánchez <david.sanchez.lt@gmail.com>"]
+license = "GPL-3.0"
+description = "A .gitignore bootstrapper for projects that use git"
+readme = "README.md"
+homepage = "https://gitlab.com/DavSanchez/gib.git"
+repository = "https://gitlab.com/DavSanchez/gib.git"
+keywords = ["cli", "git", "gitignore", "vcs"]
+categories = ["command-line-utilities"]
 edition = "2018"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+exitcode = "1.1"
+itertools = "0.9"
+structopt = "0.3"
+
+[dev-dependencies]
+assert_cmd = "1"
+assert_fs = "1"
+predicates = "1"
