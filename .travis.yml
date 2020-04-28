@@ -12,7 +12,7 @@ env:
   global:
   - CRATE_NAME=gib
 
-  jobs:
+jobs:
   allow_failures:
   - rust: nightly
   - os: windows
