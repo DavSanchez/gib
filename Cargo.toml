@@ -1,6 +1,6 @@
 [package]
 name = "gib"
-version = "0.1.1"
+version = "0.1.2"
 authors = ["David Sánchez <david.sanchez.lt@gmail.com>"]
 license = "MIT OR GPL-3.0"
 description = "A .gitignore bootstrapper for projects that use git"
