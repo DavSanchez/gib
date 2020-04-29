@@ -17,7 +17,7 @@ jobs:
 cache: cargo
 before_deploy:
   - cargo build --release
-  - tar czf $CRATE_NAME-$TRAVIS_TAG-$TRAVIS_OS_NAME.tar.gz target/release/$CRATE_NAME
+  - tar czf target/release/$CRATE_NAME-$TRAVIS_TAG-$TRAVIS_OS_NAME.tar.gz target/release/$CRATE_NAME*
 deploy:
   - provider: releases
     token:
