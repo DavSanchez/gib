@@ -10,7 +10,7 @@ os:
 
 env:
   global:
-  - CRATE_NAME=gib
+    - CRATE_NAME=gib
 
 jobs:
   allow_failures:
