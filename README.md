@@ -4,7 +4,7 @@
 ![License](https://img.shields.io/crates/l/gib/0.1.0)
 
 ## Installation
-You can download the binaries for the available platforms [at GitHub's releases page](https://github.com/DavSanchez/gib/releases) **(Windows hopefully coming soon!)**
+You can download the binaries for the available platforms [at GitHub's releases page](https://github.com/DavSanchez/gib/releases)
 
 Additionally, if you have installed Rust on your machine, you can just do:
 ```bash
@@ -77,8 +77,7 @@ Cargo.lock
 **/*.rs.bk
 ```
 ## Pending changes
-- [ ] Template file paths are not correctly generated for Windows. Critical for Windows release.
-- [ ] Additional means of installation (`brew` for macOS, etc.)
+- [ ] Additional means of installation (`brew` for macOS, `scoop` of `choco` for Windows, etc.)
 - [ ] Add `append` and `replace` flags for working with existing `.gitignore` files.
 - [ ] Replace `.gitignore` template loading with [`lazy_static`](https://docs.rs/lazy_static/) or [`phf`](https://github.com/sfackler/rust-phf)?
 - [ ] The build process at `build.rs` assumes the `gitignore` submodule is present and correctly loaded. It should test that before anything else.
