@@ -1,33 +1,29 @@
 language: rust
 rust:
-  - stable
-  - beta
-  - nightly
+- stable
+- beta
+- nightly
 os:
-  - linux
-  - osx
-  - windows
-
+- linux
+- osx
+- windows
 env:
   global:
-    - CRATE_NAME=gib
-
+  - CRATE_NAME=gib
 jobs:
   allow_failures:
-    - rust: nightly
-    - os: windows
+  - rust: nightly
+  - os: windows
   fast_finish: true
-
 cache: cargo
-
 deploy:
   - provider: releases
     token:
-      secure: WjZu7ij3vUap0jnSKrpdH5rgI/iscq0zmUv1Qlp6dsgoJx4wxE4YLP8yuEOAYry+QOIdoNBvWOjfyh5atNi3lLoWRvunKV3V6ICQMpJ1N32tbID5syjF9ETfKE2Bpnf+s9JYHpuqFJDX7u6O905438MwD1eKOaEleudXI4B1MbhImhineYcn6m9zNikL7h1hCMyCZBYueSBA3/ECk4ExoqU8tF2iDkSklB8+qyk8OiSyvRhT1c6ysE8sgxQUn0De+487Xg01YIkcc5sMFyv9qQurEqQo0fPPS8h+RT56huG422tiYbATL224c6nyJOp0uIl0dx8oXeSYAkkGRwju1JJaOSbSDnHRymKr6q340x9luqVUL6hYH8XRXc4yhNgW1kiEnYgu4K1u7luXKmvx40sIgCNQLffBtkWRKWYLhMPNnCtDBFai+EHraW3GywMfmOnWpupi6qNy3r1sY7sNy1u0MOFnA0N7DJa472FYzPD371s+xvkhg7H7rqUaWcpM8ksXE6jGwc3AJ02eHFfFH+N1bBdOhVpx8rFmpae6GiCRgIjcK94mfg5L/VBB1hu4lQsoOIFpETM7bpyFCtjSTDORlQOAytPqpRZKiTZpE6UXUz/V0WSNENTRKULHwTLrGQyV/c3hmK0yF9SLcaTVaGfDPzg1/TQLrP0Hx1lHWSw=
+      secure: mymrV4loQVIyKj3MVhYQ2b63iLZT+xnE5JXdpC8284LVo469HvqQuywjAG9sEGsjT929NQra+szkAiSog90QOvlVN4nIZPaHlClpRWwWDHJam9clVl7h9+dHy6GY6+gKc6ZTrKWzEhmdX9V0XHB8Q4LPOdjglMsXKuqxp/9VbRxO6ItUhhm1I/hPYkfcKQrpb2jheOLNDcq1GnlFRfdKyLzRlQZfd5XbvMQh1cun1RZ1KdhENB42dC157kr8SFhJY/E1PPC21oT33kdzGEH9y40zgAlWskagzVnWZPmjcoO2+kLPXc/F0+7dDIpQ+2P0zNaG1oHQ/oCQF8rTKsAE1bZvgf4FaJXyAoHeQcL7F0TusVwDEPLSjJ8UfCvBkTnYFXfORtGIxGlTTCcdI/iyHphNpWEU/Go4Z9mpBegFIk/q0mHWd8/tRVIy/tIk2Wly+Y7ZX+hfb2XNpizA9cTNz0C8SFUEH3rgrELNBQgwnEWbt2CWELJg+zDoIwR3UauCOuMXWOLmJoN7OuLEvoFdGFErQjZPXDanoUZad9SBwr+7vJ2LfFYj9PL7MQ4dcmy2OFbmMMHyb+vqjwIvUg/gUfnaz8eqPFdV9zuZuMoJPRaEBcGqmiD+us1T0cakr3rYzQpjJbzJ4fdEvFv5zaKXYh2Ev4fX1UgALtiS9pSmPVQ=
     file: target/release/gib
     on:
       repo: DavSanchez/gib
-      # tags: true
+      tags: true
     edge: true
   - provider: cargo
     token:
