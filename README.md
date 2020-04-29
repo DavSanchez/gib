@@ -1,8 +1,15 @@
 # `gib` - A `.gitignore` bootstrapper for projects using `git`
+![Crates.io](https://img.shields.io/crates/v/gib)
 ![Travis CI build](https://travis-ci.com/DavSanchez/gib.svg?branch=master)
+![License](https://img.shields.io/crates/l/gib/0.1.0)
 
 ## Installation
-TODO
+You can download the released versions for the available platforms [on GitHub's releases page](https://github.com/DavSanchez/gib/releases) **(Windows hopefully coming soon!)**
+
+Additionally, if you have installed Rust on your machine, you can just do:
+```bash
+cargo install gib
+```
 
 ## Usage
 ### Create `.gitignore` at current directory (if it doesn't exist)
@@ -70,7 +77,8 @@ Cargo.lock
 **/*.rs.bk
 ```
 ## Pending changes
-- [ ] Template file paths are not correctly generated for Windows.
+- [ ] Template file paths are not correctly generated for Windows. Critical for Windows release.
+- [ ] Additional means of installation (`brew` for macOS, etc.)
 - [ ] Add `append` and `replace` flags for working with existing `.gitignore` files.
 - [ ] Replace `.gitignore` template loading with [`lazy_static`](https://docs.rs/lazy_static/) or [`phf`](https://github.com/sfackler/rust-phf)?
 - [ ] The build process at `build.rs` assumes the `gitignore` submodule is present and correctly loaded. It should test that before anything else.

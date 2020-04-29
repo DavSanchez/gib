@@ -14,7 +14,7 @@ edition = "2018"
 exclude = ["gitignore/*", "!gitignore/**/*.gitignore"]
 
 [badges]
-gitlab = { repository = "https://gitlab.com/DavSanchez/gib" }
+gitlab = { repository = "DavSanchez/gib" }
 travis-ci = { repository = "DavSanchez/gib" }
 
 [dependencies]
