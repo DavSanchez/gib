@@ -18,16 +18,19 @@ jobs:
 cache: cargo
 deploy:
   - provider: releases
+    before_deploy:
+      - tar czf $CRATE_NAME-$TRAVIS_TAG-$TRAVIS_OS_NAME.tar.gz target/release/$CRATE_NAME
     token:
       secure: mymrV4loQVIyKj3MVhYQ2b63iLZT+xnE5JXdpC8284LVo469HvqQuywjAG9sEGsjT929NQra+szkAiSog90QOvlVN4nIZPaHlClpRWwWDHJam9clVl7h9+dHy6GY6+gKc6ZTrKWzEhmdX9V0XHB8Q4LPOdjglMsXKuqxp/9VbRxO6ItUhhm1I/hPYkfcKQrpb2jheOLNDcq1GnlFRfdKyLzRlQZfd5XbvMQh1cun1RZ1KdhENB42dC157kr8SFhJY/E1PPC21oT33kdzGEH9y40zgAlWskagzVnWZPmjcoO2+kLPXc/F0+7dDIpQ+2P0zNaG1oHQ/oCQF8rTKsAE1bZvgf4FaJXyAoHeQcL7F0TusVwDEPLSjJ8UfCvBkTnYFXfORtGIxGlTTCcdI/iyHphNpWEU/Go4Z9mpBegFIk/q0mHWd8/tRVIy/tIk2Wly+Y7ZX+hfb2XNpizA9cTNz0C8SFUEH3rgrELNBQgwnEWbt2CWELJg+zDoIwR3UauCOuMXWOLmJoN7OuLEvoFdGFErQjZPXDanoUZad9SBwr+7vJ2LfFYj9PL7MQ4dcmy2OFbmMMHyb+vqjwIvUg/gUfnaz8eqPFdV9zuZuMoJPRaEBcGqmiD+us1T0cakr3rYzQpjJbzJ4fdEvFv5zaKXYh2Ev4fX1UgALtiS9pSmPVQ=
-    file: target/release/gib
+    file: $CRATE_NAME-$TRAVIS_TAG-$TRAVIS_OS_NAME.*
     on:
       repo: DavSanchez/gib
+      condition: $TRAVIS_RUST_VERSION = stable
       tags: true
     edge: true
   - provider: cargo
     token:
-      secure: ceOmL2hKql3aoWOWdEHehSuxbBidRbfl8QlpZKQq9QEpkbS1hGl5O1TNQBl84QymGig8/90LjnhMKD8oQXPMbr0NWmy7BozXvdKXQF3GLlzdcpwlKkxEWWyQggrdelEYRElaI1ZTzQJgEtfXcgL/PfvLf/7KaL7nLepxpl0LEphmVui3pVNIj44kKsoudEwADHaLlufnqhS9R3HwI4h6myFSz2snXm2iK+Oh48coBTU5VH7qA8cAKjy4jrVuo63eQiT9i66ync19VfOcZe2kuRs+Gy6pT0BRwZpr7NZtsOedwsN38xYUHV90cgIpuAXgYYGfGqPmRcaruFXMSOy0Lsh3j9B3d1CqP9Asz/eRdAMiYfvWG/nS3AA7uV+pwNAFOrWWt2UfYjP3LswQABd/VoyGNVbvqS54vKGAcKP4JIGdGPTmb7eUmG9fXivdz8/EhGjunBzp/TaNJAdnm1dzIvO4lDAAAbYlvkPMo2SOxtV2Zy8iu3aMKwCz0TGNctmNdhFmt/UTxynHJpQbklQJipdhWwCHWfaHEvLoYx9bhKGfzNOYzW8ab3c9nc5kD4SR4iU2uoAuSCqa49N6ysmALDGe0A+ULDF3d1jWeB6+ecUVI3eLJKDdKWO/aWS6UAiqphZohjcmyKYVqUX9vGdSlCdT0SIk038MoIdWc4NcJNE=
+      secure: Cg2zlUjPZuDcFNj5yqab+at26vQrYJJYCmXYarUW1mG8k4yP6rCB83OndcTpfVHNgyPmOX5+u58XewHZ1gvODRAtwgvDq9zVAgxZElJR3waBt/CcMQz/k7oVRiw18HFgChkOKLlUe13qbdkgKrFZ8WI2FPgaANJMp0HRswIHqA6xxnbQ8HQuhO49qDiHU8AsbPGVROIJjHq6K1nKW0yzBeAnzoLYXAGpU8j2SnHclK80Fi8b9e/w7if/8aNeEVVbyYaH+MM/A89kivCgdnmX4ig/DYLb8xw2jhwQCGt5Y0QW64CesKxcLGVq+B6pDjo/feM5tclz+p9ZotipiV3RTkkeBSnnOENL2A0SE2L2v8G9gSGPJaugSb0GuACst2y5aWS5gLDCbkAYV5BD8n0xUWIQEAyJSfivg5SLRvthHUF+RGbUt2gRdy9r5dGtNKaldiyG4kVcPxrAOsKEVoFj3WrgbKoLbpLABKBy7gdARc8lQr8F1TGxmlyrEbqaviieJQzuQeypBh+J/r/Wowx+ZPM/7N1o4sTY0/3im+Ld9QhClbgvXkYBRZ7h72aIFtVkIaeU2qGf2BkDM74DqIbzS+yu+q2NQhgJhySehh+Hd6g/rTGPz2anIp8E496njo3TCHX64o7fdeSbMO4xO9Ut241/w0tGtYOy1SJMcfnPd6s=
     on:
       tags: true
     edge: true
