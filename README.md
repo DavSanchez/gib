@@ -4,7 +4,7 @@
 ![License](https://img.shields.io/crates/l/gib/0.1.0)
 
 ## Installation
-You can download the released versions for the available platforms [on GitHub's releases page](https://github.com/DavSanchez/gib/releases) **(Windows hopefully coming soon!)**
+You can download the binaries for the available platforms [at GitHub's releases page](https://github.com/DavSanchez/gib/releases) **(Windows hopefully coming soon!)**
 
 Additionally, if you have installed Rust on your machine, you can just do:
 ```bash
