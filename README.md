@@ -3,6 +3,8 @@
 ![Travis CI build](https://travis-ci.com/DavSanchez/gib.svg?branch=master)
 ![License](https://img.shields.io/crates/l/gib/0.1.0)
 
+This is a small utility for those who need to generate `.gitignore` files for different languages or frameworks. `gib` uses `.gitignore` templates, allowing to check and generate these files from them. The templates are collected directly from [GitHub's own gitignore repository](https://github.com/github/gitignore).
+
 ## Installation
 You can download the binaries for the available platforms [at GitHub's releases page](https://github.com/DavSanchez/gib/releases)
 
@@ -19,7 +21,7 @@ $ gib [<template>...]
 
 If a `.gitignore` file already exists at that location, `gib` will do nothing.
 
-**\[Coming soon:\]** If you want to extend an existing file instead, use the `-a|--append` flag. If you want to overwrite it, use `-r|--replace`.
+If you want to extend an existing file instead, use the `-a|--append` flag. If you want to overwrite it, use `-r|--replace` (append takes precedence over replace).
 
 ### Create `.gitignore` at other directory
 ```bash
@@ -35,6 +37,8 @@ $ gib [-l|--list]
 ```bash
 $ gib [<template>...] [-s|--show]
 ```
+
+This flag takes precedence over `--append`, `--replace` and `--output` flags.
 
 ## Examples
 ### Output `.gitignore` file for Go and Rust
