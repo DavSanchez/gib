@@ -4,6 +4,7 @@ use std::{
     fs::{self, File},
     io::{self, Write},
     path::{Path, PathBuf},
+    str::EscapeDefault,
 };
 
 const GITIGNORE_DIR: &str = "gitignore";
@@ -22,11 +23,10 @@ fn main() -> Result<(), Box<dyn Error>> {
 
     writeln!(&mut gitignore_data, r#"["#,)?;
     for path in path_vec {
-        let filename = path.file_stem().unwrap().to_str().unwrap();
-        let filepath = path.display();
+        let (filename, filepath) = extract_escaped_filename(&path)?;
         writeln!(
             &mut gitignore_data,
-            r###"("{}", ("{}", include_bytes!(r#"{}"#))),"###,
+            r###"("{}", ("{}", include_bytes!("{}"))),"###,
             filename.to_lowercase(),
             filename,
             filepath,
@@ -37,6 +37,18 @@ fn main() -> Result<(), Box<dyn Error>> {
     println!("cargo:rerun-if-changed=build.rs");
 
     Ok(())
+}
+
+fn extract_escaped_filename(
+    path: &PathBuf,
+) -> Result<(&str, EscapeDefault), Box<dyn Error>> {
+    let filename = path
+        .file_stem()
+        .ok_or("Could not get filename")?
+        .to_str()
+        .ok_or("Could not convert filename to valid string")?;
+    let filepath = path.to_str().ok_or("Could not get escaped file path")?;
+    Ok((filename, filepath.escape_default()))
 }
 
 fn visit_dirs(dir: &Path, path_vec: &mut Vec<PathBuf>) -> io::Result<()> {

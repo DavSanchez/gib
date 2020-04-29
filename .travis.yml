@@ -28,7 +28,6 @@ deploy:
       tags: true
     edge: true
   - provider: cargo
-    cleanup: true
     token:
       secure: Cg2zlUjPZuDcFNj5yqab+at26vQrYJJYCmXYarUW1mG8k4yP6rCB83OndcTpfVHNgyPmOX5+u58XewHZ1gvODRAtwgvDq9zVAgxZElJR3waBt/CcMQz/k7oVRiw18HFgChkOKLlUe13qbdkgKrFZ8WI2FPgaANJMp0HRswIHqA6xxnbQ8HQuhO49qDiHU8AsbPGVROIJjHq6K1nKW0yzBeAnzoLYXAGpU8j2SnHclK80Fi8b9e/w7if/8aNeEVVbyYaH+MM/A89kivCgdnmX4ig/DYLb8xw2jhwQCGt5Y0QW64CesKxcLGVq+B6pDjo/feM5tclz+p9ZotipiV3RTkkeBSnnOENL2A0SE2L2v8G9gSGPJaugSb0GuACst2y5aWS5gLDCbkAYV5BD8n0xUWIQEAyJSfivg5SLRvthHUF+RGbUt2gRdy9r5dGtNKaldiyG4kVcPxrAOsKEVoFj3WrgbKoLbpLABKBy7gdARc8lQr8F1TGxmlyrEbqaviieJQzuQeypBh+J/r/Wowx+ZPM/7N1o4sTY0/3im+Ld9QhClbgvXkYBRZ7h72aIFtVkIaeU2qGf2BkDM74DqIbzS+yu+q2NQhgJhySehh+Hd6g/rTGPz2anIp8E496njo3TCHX64o7fdeSbMO4xO9Ut241/w0tGtYOy1SJMcfnPd6s=
     on:
