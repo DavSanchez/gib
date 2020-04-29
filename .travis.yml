@@ -25,7 +25,7 @@ deploy:
     on:
       repo: DavSanchez/gib
       condition: $TRAVIS_RUST_VERSION = stable
-      # tags: true
+      tags: true
     edge: true
   - provider: cargo
     cleanup: true
