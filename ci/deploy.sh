@@ -11,7 +11,7 @@ main () {
             ;;
         osx)
             stage=$(mktemp -d -t tmp)
-            bin=name=$CRATE_NAME
+            bin_name=$CRATE_NAME
             ;;
         windows)
             stage=$(mktemp -d -t tmp)
@@ -26,3 +26,5 @@ main () {
     cd $src
     rm -rf $stage
 }
+
+main
