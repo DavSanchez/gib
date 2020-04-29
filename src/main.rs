@@ -3,7 +3,7 @@ use itertools::Itertools;
 use std::{
     collections::HashMap,
     env,
-    fs::File,
+    fs::OpenOptions,
     io::{self, Write},
     path::PathBuf,
     process,
@@ -27,7 +27,6 @@ struct Gib {
     #[structopt(short, long)]
     show: bool,
 
-    /*
     /// Append result to existing .gitignore
     #[structopt(short, long)]
     append: bool,
@@ -35,7 +34,7 @@ struct Gib {
     /// Replace existing .gitignore with result
     #[structopt(short, long)]
     replace: bool,
-    */
+
     /// Print list of available templates to stdout. Ignores all other flags.
     #[structopt(short, long)]
     list: bool,
@@ -69,7 +68,7 @@ fn main() {
 
     // Check for show flag
     if !opt.show {
-        // Check for out
+        // Check for out flag
         let output_dir = match opt.output {
             Some(path) => path,
             None => env::current_dir().unwrap(),
@@ -78,12 +77,37 @@ fn main() {
         if !output_dir.exists() || !output_dir.is_dir() {
             eprintln!("Error: Output directory does not exist.");
             process::exit(exitcode::OSFILE);
-        } else if output_dir.join(".gitignore").exists() {
+        } else if output_dir.join(".gitignore").exists() && !opt.replace {
             eprintln!("Error: .gitignore file already exists at this location.");
             process::exit(exitcode::CANTCREAT);
+        } else if opt.append {
+            // let gitignore_file = output_dir.join(".gitignore");
+            // out = Box::new(File::create(&gitignore_file).unwrap());
+            out = Box::new(
+                OpenOptions::new()
+                    .append(true)
+                    .open(output_dir.join(".gitignore"))
+                    .unwrap(),
+            );
+            println!("Appending to .gitignore file.");
+        } else if opt.replace {
+            // let gitignore_file = output_dir.join(".gitignore");
+            out = Box::new(
+                OpenOptions::new()
+                    .write(true)
+                    .open(output_dir.join(".gitignore"))
+                    .unwrap(),
+            );
+            println!("Replacing .gitignore file.");
         } else {
-            let gitignore_file = output_dir.join(".gitignore");
-            out = Box::new(File::create(&gitignore_file).unwrap());
+            // let gitignore_file = output_dir.join(".gitignore");
+            out = Box::new(
+                OpenOptions::new()
+                    .write(true)
+                    .create(true)
+                    .open(output_dir.join(".gitignore"))
+                    .unwrap(),
+            );
             println!("Creating .gitignore file.");
         }
     } else {
