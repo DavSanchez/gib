@@ -16,10 +16,7 @@ jobs:
   fast_finish: true
 cache: cargo
 before_deploy:
-  - cargo build --release
-  - local stage=$(mktemp -d -t tmp.XXX)
-  - cp target/release/$CRATE_NAME* $stage/
-  - cd $stage && tar czf $(pwd)/$CRATE_NAME-$TRAVIS_TAG-$TRAVIS_OS_NAME.tar.gz $CRATE_NAME*
+  - sh ci/deploy.sh
 deploy:
   - provider: releases
     token:
