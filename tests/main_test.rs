@@ -1,7 +1,11 @@
 use assert_cmd::prelude::*; // Add methods on commands
 use assert_fs::prelude::*; // Add methods on files
+use itertools::Itertools;
 use predicates::prelude::*;
 use std::{fs::File, io::Write, process::Command};
+
+const GITIGNORE_FILES: &[(&str, (&str, &[u8]))] =
+    &include!(concat!(env!("OUT_DIR"), "/gitignore_data.rs"));
 
 #[test]
 fn gib_at_cwd() -> Result<(), Box<dyn std::error::Error>> {
@@ -118,7 +122,18 @@ fn no_template() -> Result<(), Box<dyn std::error::Error>> {
 
 #[test]
 fn list_flag() -> Result<(), Box<dyn std::error::Error>> {
-    // TODO: Not implemented
+    let templates: Vec<&str> = GITIGNORE_FILES.into_iter().map(|x| x.0).sorted().collect();
+    let mut result: String = "".to_string();
+    for template in templates {
+        result.push_str(&format!("{}\n", template));
+    }
+
+    let mut cmd = Command::cargo_bin("gib")?;
+    cmd.arg("-l");
+    cmd.assert()
+        .success()
+        .stdout(predicate::str::contains(format!("{}", result)));
+
     Ok(())
 }
 
