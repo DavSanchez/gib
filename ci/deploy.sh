@@ -14,7 +14,7 @@ main () {
             bin_name=$CRATE_NAME
             ;;
         windows)
-            stage=$(mktemp -d -t tmp)
+            stage=$(mktemp -d)
             bin_name=$CRATE_NAME.exe
             ;;
     esac
