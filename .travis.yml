@@ -23,11 +23,11 @@ cache: cargo
 deploy:
   - provider: releases
     token:
-      secure: FwLJvHAve5rP960DqBWccR/9NhVieL666pySsmEGp2/IOL/DzpNzwNKImTDnDVzpcol7DKBcGoX4eT+MNlwIAwk+28N6BPFMMo5kfubGiHBYjqvSm+bG8EQx0BkCCh7VabRXZw7xa5YdKlRui1NLvTP0lGt/XH19uWqfs4WDal4CEY6EarxwsLAFv+MO1Vj/dWcoaFdFL9XMyGb7xs/ekr2Tg5CsZBPdYiqph9IxAvx7jtsho/jmfP3bLnRKgdMnId/YCRWzjt7DSQ9/BO8RFikElzcyumY9cfKciDJ98HcIRsNvKTkCBwNe3fyzvAJn1EBSXCVgcwK+IPO7u7L+izfaGXl+3apuJfj8rhQHRiagw+gLpXQCGVfrwWJXedKQrIVjiYCah+t+1julIL6BYzsSPjH6ljr0N8NaFDOfpRS7EPULJktXGw/qCTgxnkUcrk7sPvvhk6e7qcRNb9KIykc1BdvdULvfJ02t8P4AHkNrl7UVLkMAhWtMGHQZxy63z0k3nYWTMtW/1Iva6MKuz2DiEgrBhkAJTdZh/OCPcFuSE7l8YH6NtFaozbhQY6+RFnu/vN9c8po1kYYNXverPU8NoEEPIog9ncDFGbS1fDMK+wZiyi1TJshjaNbKdLHq3l3xTrwCI4eJMDDnWqVrIwwth7nnPB5lAGGQEj+sCBE=
+      secure: WjZu7ij3vUap0jnSKrpdH5rgI/iscq0zmUv1Qlp6dsgoJx4wxE4YLP8yuEOAYry+QOIdoNBvWOjfyh5atNi3lLoWRvunKV3V6ICQMpJ1N32tbID5syjF9ETfKE2Bpnf+s9JYHpuqFJDX7u6O905438MwD1eKOaEleudXI4B1MbhImhineYcn6m9zNikL7h1hCMyCZBYueSBA3/ECk4ExoqU8tF2iDkSklB8+qyk8OiSyvRhT1c6ysE8sgxQUn0De+487Xg01YIkcc5sMFyv9qQurEqQo0fPPS8h+RT56huG422tiYbATL224c6nyJOp0uIl0dx8oXeSYAkkGRwju1JJaOSbSDnHRymKr6q340x9luqVUL6hYH8XRXc4yhNgW1kiEnYgu4K1u7luXKmvx40sIgCNQLffBtkWRKWYLhMPNnCtDBFai+EHraW3GywMfmOnWpupi6qNy3r1sY7sNy1u0MOFnA0N7DJa472FYzPD371s+xvkhg7H7rqUaWcpM8ksXE6jGwc3AJ02eHFfFH+N1bBdOhVpx8rFmpae6GiCRgIjcK94mfg5L/VBB1hu4lQsoOIFpETM7bpyFCtjSTDORlQOAytPqpRZKiTZpE6UXUz/V0WSNENTRKULHwTLrGQyV/c3hmK0yF9SLcaTVaGfDPzg1/TQLrP0Hx1lHWSw=
     file: target/release/gib
     on:
       repo: DavSanchez/gib
-      tags: true
+      # tags: true
     edge: true
   - provider: cargo
     token:
