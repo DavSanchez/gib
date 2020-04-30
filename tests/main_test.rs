@@ -15,10 +15,11 @@ fn gib_at_cwd() -> Result<(), Box<dyn std::error::Error>> {
     cmd.current_dir(dir.path()).arg("rust");
     cmd.assert()
         .success()
-        .stdout(predicate::str::contains("Creating .gitignore file."));
+        .stdout(predicate::str::contains("Created .gitignore file."));
 
     dir.child(".gitignore").assert(predicates::path::exists());
     // TODO: CHECK FILE CONTENTS ARE THE EXPECTED, HEADERS INCLUDED
+    // TODO: CREATE EXAMPLE GITIGNORE OUTPUTS TO COMPARE
 
     dir.close()?;
     Ok(())
@@ -32,11 +33,12 @@ fn gib_at_output_path() -> Result<(), Box<dyn std::error::Error>> {
     cmd.arg("rust").arg("-o").arg(dir.path());
     cmd.assert()
         .success()
-        .stdout(predicate::str::contains("Creating .gitignore file."));
+        .stdout(predicate::str::contains("Created .gitignore file."));
 
     dir.child(".gitignore").assert(predicates::path::exists());
     // TODO: CHECK FILE CONTENTS ARE THE EXPECTED, HEADERS INCLUDED
-
+    // TODO: CREATE EXAMPLE GITIGNORE OUTPUTS TO COMPARE
+    
     dir.close()?;
     Ok(())
 }
@@ -100,7 +102,7 @@ fn unknown_template() -> Result<(), Box<dyn std::error::Error>> {
         .arg(dir.path());
     cmd.assert()
         .failure()
-        .stderr(predicate::str::contains("Error: Unrecognized template."));
+        .stderr(predicate::str::contains("Error: Unrecognized template"));
 
     dir.close()?;
     Ok(())

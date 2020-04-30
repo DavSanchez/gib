@@ -1,54 +1,57 @@
 use std::{
     env,
-    error::Error,
     fs::{self, File},
     io::{self, Write},
     path::{Path, PathBuf},
+    process,
     str::EscapeDefault,
 };
 
 const GITIGNORE_DIR: &str = "gitignore";
 
-fn main() -> Result<(), Box<dyn Error>> {
+fn main() {
     let mut d = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
     d.push(GITIGNORE_DIR);
 
-    let out_dir = env::var("OUT_DIR")?;
-    let dest_path = Path::new(&out_dir).join("gitignore_data.rs");
-    let mut gitignore_data = File::create(&dest_path)?;
-
     let mut path_vec = Vec::new();
 
-    visit_dirs(&d, &mut path_vec)?;
+    visit_dirs(&d, &mut path_vec).expect("Could not navigate templates directory.");
+    if path_vec.is_empty() {
+        eprintln!(
+            "Could not get any templates. \
+             Please open an issue at \
+             https://github.com/DavSanchez/gib/issues/new"
+        );
+        process::exit(1);
+    }
 
-    writeln!(&mut gitignore_data, r#"["#,)?;
+    let out_dir = env::var("OUT_DIR").expect("OUT_DIR variable not defined.");
+    let dest_path = Path::new(&out_dir).join("gitignore_data.rs");
+    let mut gitignore_data = File::create(&dest_path).unwrap();
+
+    writeln!(&mut gitignore_data, r#"["#,).unwrap();
     for path in path_vec {
-        let (filename, filepath) = extract_escaped_filename(&path)?;
+        let (filename, filepath) = match extract_escaped_filename(&path) {
+            Some((filename, filepath)) => (filename, filepath),
+            None => continue,
+        };
         writeln!(
             &mut gitignore_data,
             r###"("{}", ("{}", include_bytes!("{}"))),"###,
             filename.to_lowercase(),
             filename,
             filepath,
-        )?;
+        ).unwrap();
     }
-    writeln!(&mut gitignore_data, r#"]"#,)?;
+    writeln!(&mut gitignore_data, r#"]"#,).unwrap();
 
     println!("cargo:rerun-if-changed=build.rs");
-
-    Ok(())
 }
 
-fn extract_escaped_filename(
-    path: &PathBuf,
-) -> Result<(&str, EscapeDefault), Box<dyn Error>> {
-    let filename = path
-        .file_stem()
-        .ok_or("Could not get filename")?
-        .to_str()
-        .ok_or("Could not convert filename to valid string")?;
-    let filepath = path.to_str().ok_or("Could not get escaped file path")?;
-    Ok((filename, filepath.escape_default()))
+fn extract_escaped_filename(path: &PathBuf) -> Option<(&str, EscapeDefault)> {
+    let filename = path.file_stem()?.to_str()?;
+    let filepath = path.to_str()?;
+    Some((filename, filepath.escape_default()))
 }
 
 fn visit_dirs(dir: &Path, path_vec: &mut Vec<PathBuf>) -> io::Result<()> {
