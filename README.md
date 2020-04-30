@@ -85,3 +85,4 @@ Cargo.lock
 - [ ] Add `append` and `replace` flags for working with existing `.gitignore` files.
 - [ ] Replace `.gitignore` template loading with [`lazy_static`](https://docs.rs/lazy_static/) or [`phf`](https://github.com/sfackler/rust-phf)?
 - [ ] The build process at `build.rs` assumes the `gitignore` submodule is present and correctly loaded. It should test that before anything else.
+- [ ] Code's a mess, to be honest. Must find a way to refactor and design it better, more idiomatic.
