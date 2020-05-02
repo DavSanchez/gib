@@ -84,4 +84,4 @@ Cargo.lock
 - [ ] Additional means of installation (`brew` for macOS, `scoop` or `choco` for Windows, etc.)
 - [ ] Good manpages, completion and documentation.
 - [ ] Replace `.gitignore` template loading with [`lazy_static`](https://docs.rs/lazy_static/) or [`phf`](https://github.com/sfackler/rust-phf).
-- [ ] Code's a mess, to be honest. Must find a way to refactor and design it better, more idiomatic.
+- [ ] Code's a mess, to be honest. It should be refactored in a better, more idiomatic way.
