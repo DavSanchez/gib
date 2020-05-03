@@ -8,6 +8,13 @@ This is a small utility for those who need to generate `.gitignore` files for di
 ## Installation
 You can download the binaries for the available platforms [at GitHub's releases page](https://github.com/DavSanchez/gib/releases)
 
+### (macOS) Homebrew
+```bash
+brew install davsanchez/gib/gib
+```
+
+Or `brew tap davsanchez/gib` and then `brew install gib`.
+
 ### From [crates.io](https://crates.io/crates/gib)
 If you have installed [Rust](https://www.rust-lang.org) on your machine, you can just do:
 ```bash
