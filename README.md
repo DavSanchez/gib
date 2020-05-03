@@ -8,15 +8,31 @@ This is a small utility for those who need to generate `.gitignore` files for di
 ## Installation
 You can download the binaries for the available platforms [at GitHub's releases page](https://github.com/DavSanchez/gib/releases)
 
-Additionally, if you have installed Rust on your machine, you can just do:
+### (macOS) Homebrew
+```bash
+brew install davsanchez/gib/gib
+```
+
+Or `brew tap davsanchez/gib` and then `brew install gib`.
+
+### From [crates.io](https://crates.io/crates/gib)
+If you have installed [Rust](https://www.rust-lang.org) on your machine, you can just do:
 ```bash
 cargo install gib
+```
+
+### Installing from source
+You'll also need [Rust](https://www.rust-lang.org) installed for this one:
+```bash
+git clone https://github.com/DavSanchez/gib.git --recurse-submodules
+cd gib
+cargo install
 ```
 
 ## Usage
 ### Create `.gitignore` at current directory (if it doesn't exist)
 ```bash
-$ gib [<template>...] 
+gib [<template>...] 
 ```
 
 If a `.gitignore` file already exists at that location, `gib` will do nothing.
@@ -25,17 +41,17 @@ If you want to extend an existing file instead, use the `-a|--append` flag. If y
 
 ### Create `.gitignore` at other directory
 ```bash
-$ gib [<template>...] [-o|--output] [<path>]
+gib [<template>...] [-o|--output] [<path>]
 ```
 
 ### Get list of available templates
 ```bash
-$ gib [-l|--list]
+gib [-l|--list]
 ```
 
 ### Print result of specified templates to `stdout` only
 ```bash
-$ gib [<template>...] [-s|--show]
+gib [<template>...] [-s|--show]
 ```
 
 This flag takes precedence over `--append`, `--replace` and `--output` flags.
@@ -43,7 +59,7 @@ This flag takes precedence over `--append`, `--replace` and `--output` flags.
 ## Examples
 ### Output `.gitignore` file for Go and Rust
 ```bash
-$ gib go rust
+gib go rust
 ```
 #### `.gitignore`
 ```
