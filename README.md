@@ -8,7 +8,7 @@ This is a small utility for those who need to generate `.gitignore` files for di
 ## Installation
 You can download the binaries for the available platforms [at GitHub's releases page](https://github.com/DavSanchez/gib/releases)
 
-### (macOS) Homebrew
+### Homebrew (macOS)
 ```bash
 brew install davsanchez/gib/gib
 ```
