@@ -1,10 +1,11 @@
 use exitcode;
 use itertools::Itertools;
 use std::{
-    collections::HashMap,
+    collections::{HashMap, HashSet},
     env,
     fs::{File, OpenOptions},
     io::{self, Write},
+    iter::FromIterator,
     path::PathBuf,
 };
 use structopt::StructOpt;
@@ -109,8 +110,9 @@ pub fn gib_cli() -> Result<(), i32> {
     }
 
     if !opt.templates.is_empty() {
+        let template_input_set: HashSet<String> = HashSet::from_iter(opt.templates);
         let mut writer_result: Result<_, _>;
-        for key in &opt.templates {
+        for key in &template_input_set {
             match gitignores.get::<str>(key) {
                 Some(content) => {
                     writer_result = write_contents(&mut out, content);
