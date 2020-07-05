@@ -7,6 +7,8 @@ use std::{fs::File, io::Write, process::Command};
 const GITIGNORE_FILES: &[(&str, (&str, &[u8]))] =
     &include!(concat!(env!("OUT_DIR"), "/gitignore_data.rs"));
 
+const RUST_GITIGNORE: &str = include_str!("Rust.gitignore");
+
 #[test]
 fn gib_at_cwd() -> Result<(), Box<dyn std::error::Error>> {
     let dir = assert_fs::TempDir::new()?;
@@ -18,8 +20,8 @@ fn gib_at_cwd() -> Result<(), Box<dyn std::error::Error>> {
         .stdout(predicate::str::contains("Created .gitignore file."));
 
     dir.child(".gitignore").assert(predicates::path::exists());
-    // TODO: CHECK FILE CONTENTS ARE THE EXPECTED, HEADERS INCLUDED
-    // TODO: CREATE EXAMPLE GITIGNORE OUTPUTS TO COMPARE
+    dir.child(".gitignore")
+        .assert(predicate::str::contains(RUST_GITIGNORE));
 
     dir.close()?;
     Ok(())
@@ -36,9 +38,9 @@ fn gib_at_output_path() -> Result<(), Box<dyn std::error::Error>> {
         .stdout(predicate::str::contains("Created .gitignore file."));
 
     dir.child(".gitignore").assert(predicates::path::exists());
-    // TODO: CHECK FILE CONTENTS ARE THE EXPECTED, HEADERS INCLUDED
-    // TODO: CREATE EXAMPLE GITIGNORE OUTPUTS TO COMPARE
-    
+    dir.child(".gitignore")
+        .assert(predicate::str::contains(RUST_GITIGNORE));
+
     dir.close()?;
     Ok(())
 }
@@ -50,7 +52,7 @@ fn gitignore_exists_at_output_path() -> Result<(), Box<dyn std::error::Error>> {
     writeln!(file, "# Dummy .gitignore")?;
 
     let mut cmd = Command::cargo_bin("gib")?;
-    cmd.arg("go rust -o").arg(file_path.as_path());
+    cmd.arg("rust").arg("-o").arg(dir.path());
     cmd.assert().failure().stderr(predicate::str::contains(
         "Error: .gitignore file already exists at this location.",
     ));
@@ -102,7 +104,38 @@ fn unknown_template() -> Result<(), Box<dyn std::error::Error>> {
         .arg(dir.path());
     cmd.assert()
         .failure()
-        .stderr(predicate::str::contains("Error: Unrecognized template"));
+        .stderr(predicate::str::contains(
+            "Unrecognized template unknown_template",
+        ))
+        .stderr(predicate::str::contains(
+            "Error: No valid template arguments provided",
+        ));
+
+    dir.child(".gitignore").assert(predicates::path::missing());
+
+    dir.close()?;
+    Ok(())
+}
+
+#[test]
+fn unknown_and_valid_template() -> Result<(), Box<dyn std::error::Error>> {
+    let dir = assert_fs::TempDir::new()?;
+
+    let mut cmd = Command::cargo_bin("gib")?;
+    cmd.arg("unknown_template")
+        .arg("rust")
+        .arg("-o")
+        .arg(dir.path());
+    cmd.assert()
+        .success()
+        .stderr(predicate::str::contains(
+            "Unrecognized template unknown_template",
+        ))
+        .stdout(predicate::str::contains("Created .gitignore file."));
+
+    dir.child(".gitignore").assert(predicates::path::exists());
+    dir.child(".gitignore")
+        .assert(predicate::str::contains(RUST_GITIGNORE));
 
     dir.close()?;
     Ok(())
@@ -115,8 +148,10 @@ fn no_template() -> Result<(), Box<dyn std::error::Error>> {
     let mut cmd = Command::cargo_bin("gib")?;
     cmd.arg("-s").arg("-o").arg(dir.path());
     cmd.assert().failure().stderr(predicate::str::contains(
-        "Error: No template arguments provided",
+        "Error: No valid template arguments provided",
     ));
+
+    dir.child(".gitignore").assert(predicates::path::missing());
 
     dir.close()?;
     Ok(())
@@ -145,9 +180,7 @@ fn show_flag() -> Result<(), Box<dyn std::error::Error>> {
     cmd.arg("-s").arg("rust");
     cmd.assert()
         .success()
-        .stdout(predicate::str::contains(include_str!(
-            "../gitignore/Rust.gitignore"
-        )));
+        .stdout(predicate::str::contains(RUST_GITIGNORE));
 
     Ok(())
 }
@@ -159,9 +192,7 @@ fn show_and_output_flag() -> Result<(), Box<dyn std::error::Error>> {
     cmd.arg("-s").arg("rust").arg("-o ..");
     cmd.assert()
         .success()
-        .stdout(predicate::str::contains(include_str!(
-            "../gitignore/Rust.gitignore"
-        )));
+        .stdout(predicate::str::contains(RUST_GITIGNORE));
 
     Ok(())
 }
