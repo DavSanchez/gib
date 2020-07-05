@@ -72,6 +72,17 @@ pub fn gib_cli() -> Result<(), i32> {
         return output_list(gitignores);
     }
 
+    let filtered_list: Vec<String> = opt
+        .templates
+        .iter()
+        .filter(|x| template_exists(gitignores.clone(), x))
+        .cloned()
+        .collect();
+
+    if filtered_list.is_empty() {
+        return error_exit("No valid template arguments provided.", exitcode::USAGE);
+    }
+
     let mut out: Box<dyn Write> = Box::new(io::stdout());
 
     // Check for show flag
@@ -84,10 +95,10 @@ pub fn gib_cli() -> Result<(), i32> {
         };
 
         if !output_dir.exists() || !output_dir.is_dir() {
-            return error_exit("Output directory does not exist", exitcode::OSFILE);
+            return error_exit("Output directory does not exist.", exitcode::OSFILE);
         } else if output_dir.join(".gitignore").exists() && !(opt.replace || opt.append) {
             return error_exit(
-                ".gitignore file already exists at this location",
+                ".gitignore file already exists at this location.",
                 exitcode::CANTCREAT,
             );
         } else if opt.append {
@@ -109,36 +120,36 @@ pub fn gib_cli() -> Result<(), i32> {
         }
     }
 
-    if !opt.templates.is_empty() {
-        let template_input_set: HashSet<String> = HashSet::from_iter(opt.templates);
-        let mut writer_result: Result<_, _>;
-        for key in &template_input_set {
-            match gitignores.get::<str>(key) {
-                Some(content) => {
-                    writer_result = write_contents(&mut out, content);
-                }
-                None => {
-                    return error_exit(&format!("Unrecognized template {}", key), exitcode::DATAERR)
-                }
-            }
-            if let Err(_) = writer_result {
-                return error_exit("Could not write output. Aborting", exitcode::IOERR);
-            }
+    let template_input_set: HashSet<String> = HashSet::from_iter(filtered_list);
+    let mut writer_result: Result<_, _>;
+    for key in &template_input_set {
+        let contents = gitignores.get::<str>(key).unwrap();
+        writer_result = write_contents(&mut out, contents);
+        if let Err(_) = writer_result {
+            return error_exit("Could not write output. Aborting", exitcode::IOERR);
         }
-        if let Err(e) = out.flush() {
-            return error_exit(
-                &format!("Could not flush the buffer. {}", e),
-                exitcode::IOERR,
-            );
-        }
-        if !opt.show {
-            println!("Created .gitignore file.");
-        }
-    } else {
-        return error_exit("No template arguments provided", exitcode::USAGE);
+    }
+    if let Err(e) = out.flush() {
+        return error_exit(
+            &format!("Could not flush the buffer. {}", e),
+            exitcode::IOERR,
+        );
+    }
+    if !opt.show {
+        println!("Created .gitignore file.");
     }
 
     Ok(())
+}
+
+fn template_exists(gitignores: HashMap<&str, (&str, &[u8])>, arg_template: &str) -> bool {
+    match gitignores.get::<str>(arg_template) {
+        Some(_) => true,
+        None => {
+            eprintln!("Unrecognized template {}.", arg_template);
+            false
+        }
+    }
 }
 
 fn output_list(gitignores: HashMap<&str, (&str, &[u8])>) -> Result<(), i32> {
