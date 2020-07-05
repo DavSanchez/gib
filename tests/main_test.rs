@@ -7,7 +7,7 @@ use std::{fs::File, io::Write, process::Command};
 const GITIGNORE_FILES: &[(&str, (&str, &[u8]))] =
     &include!(concat!(env!("OUT_DIR"), "/gitignore_data.rs"));
 
-const RUST_GITIGNORE: &str = include_str!("Rust.gitignore");
+const RUST_GITIGNORE: &str = include_str!("../gitignore/Rust.gitignore");
 
 #[test]
 fn gib_at_cwd() -> Result<(), Box<dyn std::error::Error>> {
