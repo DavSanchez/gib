@@ -1,4 +1,4 @@
-# `gib` - A `.gitignore` bootstrapper for projects using `git`
+# `gib` - A `.gitignore` bootstrapper
 ![Crates.io](https://img.shields.io/crates/v/gib)
 ![Travis CI build](https://travis-ci.com/DavSanchez/gib.svg?branch=master)
 ![License](https://img.shields.io/crates/l/gib/0.1.0)
